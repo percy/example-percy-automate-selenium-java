@@ -99,5 +99,4 @@ class PercyAfterTest {
             System.out.println("Error occured while executing script :" + e);
         }
     }
-
 }
