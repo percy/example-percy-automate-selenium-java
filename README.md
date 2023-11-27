@@ -17,7 +17,7 @@ If you are using CLI for running tests, ensure that Maven is installed on your m
 
 Clone the example application and install dependencies:
 
-Minimum required `@percy/cli` and `@percy/webdriver-utils` version is `1.27.0` for this to work correctly. If you already have `@percy/cli` or `@percy/webdriver-utils` installed please update it to latest or minium required version.
+Minimum required `@percy/cli` and `@percy/webdriver-utils` version is `1.27.4` for this to work correctly. If you already have `@percy/cli` or `@percy/webdriver-utils` installed please update it to latest or minium required version.
 
 ```bash
 $ git clone git@github.com:percy/example-percy-automate-selenium-java.git
