@@ -32,14 +32,14 @@ class PercyTest {
     public void setUp() throws Exception {
         ChromeOptions options = new ChromeOptions();
         options.setCapability("browserName", "Chrome");
-        options.setCapability("projectName","My Project");
-        options.setCapability("buildName","test percy_screenshot");
-        options.setCapability("sessionName","Percy first_test");
+        options.setCapability("projectName","Percy");
+        options.setCapability("buildName","Selenium-SDKs");
+        options.setCapability("sessionName","Ven-Java-Selenium")
         options.setCapability("local","false");
         options.setCapability("seleniumVersion","3.141");
         options.setCapability("browserVersion", "latest");
-        options.setCapability("os", "Windows");
-        options.setCapability("os_version", "11");
+        options.setCapability("os", "OS X");
+        options.setCapability("os_version", "Ventura");
         driver = new RemoteWebDriver(new URL(URL), options);
     }
 
