@@ -38,8 +38,8 @@ class PercyAfterTest {
         options.setCapability("local","false");
         options.setCapability("seleniumVersion","3.141");
         options.setCapability("browserVersion", "latest");
-        options.setCapability("os", "Windows");
-        options.setCapability("os_version", "11");
+        options.setCapability("os", "OS X");
+        options.setCapability("os_version", "Ventura");
         driver = new RemoteWebDriver(new URL(URL), options);
     }
 
