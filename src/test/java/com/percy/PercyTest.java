@@ -34,7 +34,7 @@ class PercyTest {
         options.setCapability("browserName", "Chrome");
         options.setCapability("projectName","Percy");
         options.setCapability("buildName","Selenium-SDKs");
-        options.setCapability("sessionName","Ven-Java-Selenium")
+        options.setCapability("sessionName","Ven-Java-Selenium");
         options.setCapability("local","false");
         options.setCapability("seleniumVersion","3.141");
         options.setCapability("browserVersion", "latest");
