@@ -98,7 +98,8 @@ On completion of the script, you would be able to see the your percy build. Sinc
 Now in order to make comparisons happen we need to make changes to the existing website so that a visual change can occur you can go to following file in `PercyTest.java`
 
 ```java 
-webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"1\"]/div[4]"))); // Say change id to 3 
+webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//p[@class=\"shelf-item__title\"])[3]"))); // Say change id to 2 
+driver.findElement(By.xpath("(//div[@class=\"shelf-item__buy-btn\"])[3]")).click(); // Say change add to cart locator id to 2
 ```
 Or else just run `PercyAfterTest.java`, we have already made visual changes in this script. If you run the `PercyAfterTest.java` script in tests, this would create few visual changes and would get compared to the last build and we would be able to see few diffs.
 
