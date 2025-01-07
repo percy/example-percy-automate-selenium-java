@@ -65,8 +65,8 @@ class PercyTest {
             webDriverWait.until(ExpectedConditions.titleContains("StackDemo"));
 
             // click on the apple product
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")));
-            driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")).click();
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()=\"Apple\"]")));
+            driver.findElement(By.xpath("//span[normalize-space()=\"Apple\"]")).click();
 
             // [percy note: important step]
             // Percy Screenshot 1
@@ -74,17 +74,17 @@ class PercyTest {
             percy.screenshot("screenshot_1");
 
             // Save the text of the product for later verify
-            String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
+            String productOnScreenText = driver.findElement(By.xpath("(//p[@class=\"shelf-item__title\"])[3]")).getText();
 
             // Click on add to cart button
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"1\"]/div[4]")));
-            driver.findElement(By.xpath("//*[@id=\"1\"]/div[4]")).click();
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class=\"shelf-item__buy-btn\"])[3]")));
+            driver.findElement(By.xpath("(//div[@class=\"shelf-item__buy-btn\"])[3]")).click();
 
             // See if the cart is opened or not
             webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("float-cart__content")));
 
            // Get text of product in cart
-            String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
+            String productOnCartText = driver.findElement(By.xpath("(//p[@class=\"title\"])[1]")).getText();
 
             // [percy note: important step]
             // Percy Screenshot 2

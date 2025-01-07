@@ -66,8 +66,8 @@ class PercyAfterTest {
             webDriverWait.until(ExpectedConditions.titleContains("StackDemo"));
 
             // click on the samsung product
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__next']/div/div/main/div[1]/div[2]/label/span")));
-            driver.findElement(By.xpath("//*[@id='__next']/div/div/main/div[1]/div[2]/label/span")).click();
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()=\"Apple\"]")));
+            driver.findElement(By.xpath("//span[normalize-space()=\"Apple\"]")).click();
 
             // [percy note: important step]
             // Percy Screenshot 1
@@ -75,17 +75,17 @@ class PercyAfterTest {
             percy.screenshot("screenshot_1");
 
             // Save the text of the product for later verify
-            String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"10\"]/p")).getText();
+            String productOnScreenText = driver.findElement(By.xpath("(//p[@class=\"shelf-item__title\"])[2]")).getText();
 
             // Click on add to cart button
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"10\"]/div[4]")));
-            driver.findElement(By.xpath("//*[@id=\"10\"]/div[4]")).click();
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class=\"shelf-item__buy-btn\"])[2]")));
+            driver.findElement(By.xpath("(//div[@class=\"shelf-item__buy-btn\"])[2]")).click();
 
             // See if the cart is opened or not
             webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("float-cart__content")));
 
             // Get text of product in cart
-            String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
+            String productOnCartText = driver.findElement(By.xpath("(//p[@class=\"title\"])[1]")).getText();
 
             // [percy note: important step]
             // Percy Screenshot 2
