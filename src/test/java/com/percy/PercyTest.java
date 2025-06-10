@@ -69,9 +69,9 @@ class PercyTest {
             driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")).click();
 
             // [percy note: important step]
-            // Percy Screenshot 1
-            // take percy_screenshot using the following command
-            percy.screenshot("screenshot_1");
+            // Percy Snapshot 1
+            // take percy snapshot using the following command
+            percy.snapshot("screenshot_1");
 
             // Save the text of the product for later verify
             String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
@@ -87,8 +87,8 @@ class PercyTest {
             String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
 
             // [percy note: important step]
-            // Percy Screenshot 2
-            // take percy_screenshot using the following command
+            // Percy Snapshot 2
+            // take percy snapshot using the following command
             percy.screenshot("screenshot_2");
 
             Assert.assertEquals(productOnScreenText, productOnCartText);
