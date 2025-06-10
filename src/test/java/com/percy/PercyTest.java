@@ -89,7 +89,7 @@ class PercyTest {
             // [percy note: important step]
             // Percy Snapshot 2
             // take percy snapshot using the following command
-            percy.screenshot("screenshot_2");
+            percy.snapshot("screenshot_2");
 
             Assert.assertEquals(productOnScreenText, productOnCartText);
 
