@@ -70,7 +70,7 @@ class PercyTest {
 
             // [percy note: important step]
             // Percy Screenshot 1
-            // take percy_screenshot using the following command
+            // take percy screenshot using the following command
             percy.screenshot("screenshot_1");
 
             // Save the text of the product for later verify
