@@ -8,7 +8,7 @@ The tutorial assumes you're already familiar with Java and Selenium and focuses 
 
 ### Prerequisites
 
-TestNG v6.8+, Java v8+, Selenium v2.5+ (W3C/JSON Wire)
+TestNG v7.11.0+, Java v8+, Selenium v4.36.0+ (W3C)
 
 If you are using CLI for running tests, ensure that Maven is installed on your machine, its environment variables are set, and its bin is added to system path, $PATH
 
@@ -17,7 +17,7 @@ If you are using CLI for running tests, ensure that Maven is installed on your m
 
 Clone the example application and install dependencies:
 
-Minimum required `@percy/cli` and `@percy/webdriver-utils` version is `1.27.4` for this to work correctly. If you already have `@percy/cli` or `@percy/webdriver-utils` installed please update it to latest or minium required version.
+Minimum required `@percy/cli` and `@percy/webdriver-utils` version is `1.31.2` for this repository (pinned in `package.json`). If you already have `@percy/cli` or `@percy/webdriver-utils` installed please update to latest.
 
 ```bash
 $ git clone git@github.com:percy/example-percy-automate-selenium-java.git

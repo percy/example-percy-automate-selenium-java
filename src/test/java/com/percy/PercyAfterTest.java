@@ -5,6 +5,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import java.util.HashMap;
+import java.util.Map;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -31,23 +33,31 @@ class PercyAfterTest {
     @SuppressWarnings("unchecked")
     public void setUp() throws Exception {
         ChromeOptions options = new ChromeOptions();
-        options.setCapability("browserName", "Chrome");
-        options.setCapability("projectName","My Project");
-        options.setCapability("buildName","test percy_screenshot");
-        options.setCapability("sessionName","Percy second_test");
-        options.setCapability("local","false");
-        options.setCapability("seleniumVersion","3.141");
-        options.setCapability("browserVersion", "latest");
-        options.setCapability("os", "Windows");
-        options.setCapability("os_version", "11");
+    // W3C-style capabilities: browserName and browserVersion stay on top-level
+    options.setCapability("browserName", "chrome");
+    options.setCapability("browserVersion", "latest");
+
+        // BrowserStack-specific capabilities must be provided under the 'bstack:options' map
+        Map<String, Object> bstackOptions = new HashMap<>();
+        bstackOptions.put("projectName", "My Project");
+        bstackOptions.put("buildName", "test percy_screenshot");
+        bstackOptions.put("sessionName", "Percy second_test");
+        bstackOptions.put("local", "false");
+    // do not set seleniumVersion explicitly; let BrowserStack choose a compatible server version
+        bstackOptions.put("os", "Windows");
+        bstackOptions.put("osVersion", "11");
+
+        options.setCapability("bstack:options", bstackOptions);
+
         driver = new RemoteWebDriver(new URL(URL), options);
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() throws Exception {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
-
 
     @Test
     public void addProductToCart() throws Exception {
@@ -65,38 +75,52 @@ class PercyAfterTest {
             // Check the title
             webDriverWait.until(ExpectedConditions.titleContains("StackDemo"));
 
-            // click on the samsung product
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__next']/div/div/main/div[1]/div[2]/label/span")));
-            driver.findElement(By.xpath("//*[@id='__next']/div/div/main/div[1]/div[2]/label/span")).click();
+            // click on the apple product
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")));
+            driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")).click();
 
             // [percy note: important step]
-            // Percy Screenshot 1
-            // take percy_screenshot using the following command
-            percy.screenshot("screenshot_1");
+            // Percy Snapshot 1
+            // take percy snapshot using the appropriate command for the project token
+            takePercySnapshot(percy, "screenshot_1");
 
             // Save the text of the product for later verify
-            String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"10\"]/p")).getText();
+            String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
 
             // Click on add to cart button
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"10\"]/div[4]")));
-            driver.findElement(By.xpath("//*[@id=\"10\"]/div[4]")).click();
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"1\"]/div[4]")));
+            driver.findElement(By.xpath("//*[@id=\"1\"]/div[4]")).click();
 
             // See if the cart is opened or not
             webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("float-cart__content")));
 
-            // Get text of product in cart
+           // Get text of product in cart
             String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
 
             // [percy note: important step]
-            // Percy Screenshot 2
-            // take percy_screenshot using the following command
-            percy.screenshot("screenshot_2");
+            // Percy Snapshot 2
+            // take percy snapshot using the appropriate command for the project token
+            takePercySnapshot(percy, "screenshot_2");
 
             Assert.assertEquals(productOnScreenText, productOnCartText);
 
 
         } catch (Exception e) {
             System.out.println("Error occured while executing script :" + e);
+        }
+    }
+
+    /**
+     * Call the appropriate Percy API depending on the PERCY_TOKEN.
+     * If token starts with "auto_" this is an Automate project and uses screenshot().
+     * Otherwise use snapshot() for web projects.
+     */
+    private void takePercySnapshot(Percy percy, String name) {
+        String token = System.getenv("PERCY_TOKEN");
+        if (token != null && token.startsWith("auto_")) {
+            percy.screenshot(name);
+        } else {
+            percy.snapshot(name);
         }
     }
 }
