@@ -5,6 +5,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import java.util.HashMap;
+import java.util.Map;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -31,15 +33,22 @@ class PercyTest {
     @SuppressWarnings("unchecked")
     public void setUp() throws Exception {
         ChromeOptions options = new ChromeOptions();
-        options.setCapability("browserName", "Chrome");
-        options.setCapability("projectName","My Project");
-        options.setCapability("buildName","test percy_screenshot");
-        options.setCapability("sessionName","Percy first_test");
-        options.setCapability("local","false");
-        options.setCapability("seleniumVersion","3.141");
-        options.setCapability("browserVersion", "latest");
-        options.setCapability("os", "Windows");
-        options.setCapability("os_version", "11");
+    // W3C-style capabilities: browserName and browserVersion stay on top-level
+    options.setCapability("browserName", "chrome");
+    options.setCapability("browserVersion", "latest");
+
+        // BrowserStack-specific capabilities must be provided under the 'bstack:options' map
+        Map<String, Object> bstackOptions = new HashMap<>();
+        bstackOptions.put("projectName", "My Project");
+        bstackOptions.put("buildName", "test percy_screenshot");
+        bstackOptions.put("sessionName", "Percy first_test");
+        bstackOptions.put("local", "false");
+        bstackOptions.put("seleniumVersion", "3.141");
+        bstackOptions.put("os", "Windows");
+        bstackOptions.put("osVersion", "11");
+
+        options.setCapability("bstack:options", bstackOptions);
+
         driver = new RemoteWebDriver(new URL(URL), options);
     }
 
@@ -69,9 +78,9 @@ class PercyTest {
             driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")).click();
 
             // [percy note: important step]
-            // Percy Screenshot 1
-            // take percy screenshot using the following command
-            percy.screenshot("screenshot_1");
+            // Percy Snapshot 1
+            // take percy snapshot using the appropriate command for the project token
+            takePercySnapshot(percy, "screenshot_1");
 
             // Save the text of the product for later verify
             String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
@@ -87,15 +96,29 @@ class PercyTest {
             String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
 
             // [percy note: important step]
-            // Percy Screenshot 2
-            // take percy_screenshot using the following command
-            percy.screenshot("screenshot_2");
+            // Percy Snapshot 2
+            // take percy snapshot using the appropriate command for the project token
+            takePercySnapshot(percy, "screenshot_2");
 
             Assert.assertEquals(productOnScreenText, productOnCartText);
 
 
         } catch (Exception e) {
             System.out.println("Error occured while executing script :" + e);
+        }
+    }
+
+    /**
+     * Call the appropriate Percy API depending on the PERCY_TOKEN.
+     * If token starts with "auto_" this is an Automate project and uses screenshot().
+     * Otherwise use snapshot() for web projects.
+     */
+    private void takePercySnapshot(Percy percy, String name) {
+        String token = System.getenv("PERCY_TOKEN");
+        if (token != null && token.startsWith("auto_")) {
+            percy.screenshot(name);
+        } else {
+            percy.snapshot(name);
         }
     }
 }
