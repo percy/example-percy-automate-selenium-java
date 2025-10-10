@@ -37,12 +37,13 @@ class PercyAfterTest {
     options.setCapability("browserName", "chrome");
     options.setCapability("browserVersion", "latest");
 
+        // BrowserStack-specific capabilities must be provided under the 'bstack:options' map
         Map<String, Object> bstackOptions = new HashMap<>();
         bstackOptions.put("projectName", "My Project");
         bstackOptions.put("buildName", "test percy_screenshot");
         bstackOptions.put("sessionName", "Percy second_test");
         bstackOptions.put("local", "false");
-        bstackOptions.put("seleniumVersion", "3.141");
+    // do not set seleniumVersion explicitly; let BrowserStack choose a compatible server version
         bstackOptions.put("os", "Windows");
         bstackOptions.put("osVersion", "11");
 
@@ -53,9 +54,10 @@ class PercyAfterTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() throws Exception {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
-
 
     @Test
     public void addProductToCart() throws Exception {
@@ -73,9 +75,9 @@ class PercyAfterTest {
             // Check the title
             webDriverWait.until(ExpectedConditions.titleContains("StackDemo"));
 
-            // click on the samsung product
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__next']/div/div/main/div[1]/div[2]/label/span")));
-            driver.findElement(By.xpath("//*[@id='__next']/div/div/main/div[1]/div[2]/label/span")).click();
+            // click on the apple product
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")));
+            driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/main/div[1]/div[1]/label/span")).click();
 
             // [percy note: important step]
             // Percy Snapshot 1
@@ -83,16 +85,16 @@ class PercyAfterTest {
             takePercySnapshot(percy, "screenshot_1");
 
             // Save the text of the product for later verify
-            String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"10\"]/p")).getText();
+            String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
 
             // Click on add to cart button
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"10\"]/div[4]")));
-            driver.findElement(By.xpath("//*[@id=\"10\"]/div[4]")).click();
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"1\"]/div[4]")));
+            driver.findElement(By.xpath("//*[@id=\"1\"]/div[4]")).click();
 
             // See if the cart is opened or not
             webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.className("float-cart__content")));
 
-            // Get text of product in cart
+           // Get text of product in cart
             String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
 
             // [percy note: important step]

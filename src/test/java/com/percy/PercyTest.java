@@ -43,7 +43,7 @@ class PercyTest {
         bstackOptions.put("buildName", "test percy_screenshot");
         bstackOptions.put("sessionName", "Percy first_test");
         bstackOptions.put("local", "false");
-        bstackOptions.put("seleniumVersion", "3.141");
+    // do not set seleniumVersion explicitly; let BrowserStack choose a compatible server version
         bstackOptions.put("os", "Windows");
         bstackOptions.put("osVersion", "11");
 
@@ -54,7 +54,9 @@ class PercyTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() throws Exception {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
