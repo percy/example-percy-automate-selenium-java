@@ -1,0 +1,42 @@
+name: Advanced — Percy on Automate
+
+# PER-8195 Phase 3 — advanced example for io.percy:percy-java-selenium (Automate mode).
+# Triggers manually only (`workflow_dispatch`).
+on:
+  workflow_dispatch:
+
+jobs:
+  advanced:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: advanced
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Sanity-check BrowserStack secrets
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        run: |
+          if [ -z "$BROWSERSTACK_USERNAME" ] || [ -z "$BROWSERSTACK_ACCESS_KEY" ]; then
+            echo "::error::BROWSERSTACK_USERNAME / BROWSERSTACK_ACCESS_KEY repo secrets are required for the advanced Percy on Automate job."
+            exit 1
+          fi
+      - name: Install advanced/ dependencies
+        run: make install
+      - name: Run mvn test advanced against BrowserStack Automate
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          PERCY_BRANCH: ${{ github.ref_name }}
+          PERCY_COMMIT: ${{ github.sha }}
+        run: make test

@@ -2,6 +2,15 @@
 
 Example repo used by the Percy on Automate demonstrating Percy on Automate integration with Java using testNG.
 
+> **New:** This repo ships an [`advanced/`](./advanced) example covering the full applicable Percy on Automate feature surface for `io.percy:percy-java-selenium` (Automate mode). See the [Percy SDK Feature Matrix](https://docs.percy.io/docs/sdk-feature-matrix) for cross-SDK coverage.
+
+## Examples
+
+| Example | What it shows | Run command |
+|---|---|---|
+| `src/test/java/com/percy/PercyTest.java` (basic) | Minimum viable: `percy.screenshot(name)` per test. Start here. | `mvn test` |
+| [`advanced/`](./advanced) | Full applicable Percy on Automate feature surface: ignore/consider regions (xpath, CSS selector, custom bbox), freezeAnimation, percyCSS, sync mode, testCase + labels. TestNG + Map<String,Object> options. See [`advanced/README.md`](./advanced/README.md). | `cd advanced && make test` |
+
 ## Java on Automate Selenium Tutorial
 
 The tutorial assumes you're already familiar with Java and Selenium and focuses on using it with Percy. You'll still be able to follow along if you're not familiar with Java, Selenium, but we won't spend time introducing Java, Selenium concepts.

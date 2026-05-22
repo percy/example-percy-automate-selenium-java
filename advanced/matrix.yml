@@ -1,0 +1,77 @@
+# PER-8195 Phase 3 — Automate Selenium-Java matrix-row mapping.
+# Test code: src/test/java/com/percy/advanced/AdvancedTest.java (TestNG).
+
+sdk: automate-selenium-java
+package: io.percy:percy-java-selenium
+language: java
+mode: automate
+sdk_min_version: '2.1.2'
+cli_min_version: '1.31.13'
+
+rows:
+  - id: ignore_region_xpaths
+    state: covered
+    test: 'AdvancedTest > exercisesIgnoreRegionXpaths'
+  - id: ignore_region_selectors
+    state: covered
+    test: 'AdvancedTest > exercisesIgnoreRegionSelectors'
+  - id: custom_ignore_regions
+    state: covered
+    test: 'AdvancedTest > exercisesCustomIgnoreRegions'
+  - id: consider_region_xpaths
+    state: covered
+    test: 'AdvancedTest > exercisesConsiderRegionXpaths'
+  - id: freeze_animation
+    state: covered
+    test: 'AdvancedTest > exercisesFreezeAnimation'
+  - id: percy_css
+    state: covered
+    test: 'AdvancedTest > exercisesPercyCss'
+  - id: sync
+    state: covered
+    test: 'AdvancedTest > exercisesSyncMode'
+  - id: test_case
+    state: covered
+    test: 'AdvancedTest > exercisesTestCaseAndLabels'
+  - id: labels
+    state: covered
+    test: 'AdvancedTest > exercisesTestCaseAndLabels'
+
+  - id: consider_region_selectors
+    state: planned
+  - id: build_metadata_via_env
+    state: covered
+  - id: env_percy_branch
+    state: covered
+  - id: env_percy_commit
+    state: covered
+
+  # DOM-only.
+  - id: widths
+    state: n_a
+  - id: min_height
+    state: n_a
+  - id: enable_javascript
+    state: n_a
+  - id: scope
+    state: n_a
+  - id: discovery
+    state: n_a
+  - id: dom_transformation
+    state: n_a
+  - id: responsive_snapshot_capture
+    state: n_a
+  - id: readiness_preset
+    state: n_a
+  - id: device_pixel_ratio
+    state: n_a
+  - id: browsers
+    state: n_a
+  - id: regions
+    state: n_a
+    reason: 'Use ignoreRegion* / considerRegion* / customIgnoreRegions instead.'
+
+  - id: percy_yml_global_config
+    state: covered
+  - id: environment_info_reporting
+    state: covered
