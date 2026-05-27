@@ -5,6 +5,7 @@ package com.percy.advanced;
 // ../../../../matrix.yml for the canonical mapping.
 
 import io.percy.selenium.Percy;
+import org.json.JSONObject;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -17,6 +18,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.testng.Assert.assertNotNull;
+
 public class AdvancedTest {
     private RemoteWebDriver driver;
     private Percy percy;
@@ -27,8 +30,8 @@ public class AdvancedTest {
         String key = System.getenv("BROWSERSTACK_ACCESS_KEY");
         ChromeOptions options = new ChromeOptions();
         options.setCapability("browserName", "Chrome");
-        options.setCapability("projectName", System.getenv().getOrDefault("PERCY_PROJECT", "Percy Automate Selenium-Java Advanced"));
-        options.setCapability("buildName", System.getenv().getOrDefault("PERCY_BUILD", "Advanced Selenium Java"));
+        options.setCapability("projectName", System.getenv().getOrDefault("BROWSERSTACK_PROJECT_NAME", "Percy Automate Selenium-Java Advanced"));
+        options.setCapability("buildName", System.getenv().getOrDefault("BROWSERSTACK_BUILD_NAME", "Advanced Selenium Java"));
         options.setCapability("sessionName", "advanced_visual_test");
         options.setCapability("browserVersion", "latest");
         options.setCapability("os", "Windows");
@@ -102,7 +105,11 @@ public class AdvancedTest {
     public void exercisesSyncMode() {
         Map<String, Object> opts = new HashMap<>();
         opts.put("sync", true);
-        percy.screenshot("BStackDemo — sync", opts);
+        // sync: true blocks until Percy returns the comparison result for this
+        // screenshot, so the call yields a non-null JSONObject we can assert on.
+        JSONObject result = percy.screenshot("BStackDemo — sync", opts);
+        System.out.println("Percy sync-mode comparison result: " + result);
+        assertNotNull(result, "sync: true should return the Percy comparison result");
     }
 
     @Test

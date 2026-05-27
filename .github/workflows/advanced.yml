@@ -5,6 +5,9 @@ name: Advanced — Percy on Automate
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   advanced:
     runs-on: ubuntu-latest
@@ -13,21 +16,26 @@ jobs:
       run:
         working-directory: advanced
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 11
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
-      - name: Sanity-check BrowserStack secrets
+          node-version: 22
+      - name: Sanity-check required secrets
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
           BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
         run: |
-          if [ -z "$BROWSERSTACK_USERNAME" ] || [ -z "$BROWSERSTACK_ACCESS_KEY" ]; then
-            echo "::error::BROWSERSTACK_USERNAME / BROWSERSTACK_ACCESS_KEY repo secrets are required for the advanced Percy on Automate job."
+          missing=()
+          [ -z "$BROWSERSTACK_USERNAME" ] && missing+=(BROWSERSTACK_USERNAME)
+          [ -z "$BROWSERSTACK_ACCESS_KEY" ] && missing+=(BROWSERSTACK_ACCESS_KEY)
+          [ -z "$PERCY_TOKEN" ]            && missing+=(PERCY_TOKEN)
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error::Missing required repo secrets: ${missing[*]}"
             exit 1
           fi
       - name: Install advanced/ dependencies

@@ -41,6 +41,8 @@ rows:
     state: planned
   - id: build_metadata_via_env
     state: covered
+    # projectName/buildName capabilities are fed by BROWSERSTACK_PROJECT_NAME /
+    # BROWSERSTACK_BUILD_NAME env vars (BrowserStack metadata, not Percy).
   - id: env_percy_branch
     state: covered
   - id: env_percy_commit
