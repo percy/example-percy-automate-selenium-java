@@ -1,0 +1,6 @@
+# PER-8195 — global config for Percy on Automate (Java Selenium).
+
+version: 2
+
+percy:
+  defer_uploads: false
