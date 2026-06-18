@@ -1,0 +1,8 @@
+{
+  "name": "example-percy-automate-selenium-java",
+  "private": true,
+  "devDependencies": {
+    "@percy/cli": "^1.31.2",
+    "@percy/webdriver-utils": "^1.31.2"
+  }
+}
