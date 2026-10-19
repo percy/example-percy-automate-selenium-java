@@ -15,6 +15,8 @@ import io.percy.selenium.Percy;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 class PercyAfterTest {
 
@@ -32,14 +34,15 @@ class PercyAfterTest {
     public void setUp() throws Exception {
         ChromeOptions options = new ChromeOptions();
         options.setCapability("browserName", "Chrome");
-        options.setCapability("projectName","My Project");
-        options.setCapability("buildName","test percy_screenshot");
-        options.setCapability("sessionName","Percy second_test");
-        options.setCapability("local","false");
-        options.setCapability("seleniumVersion","3.141");
         options.setCapability("browserVersion", "latest");
-        options.setCapability("os", "Windows");
-        options.setCapability("os_version", "11");
+        Map<String, Object> bstackOptions = new HashMap<>();
+        bstackOptions.put("projectName", "My Project");
+        bstackOptions.put("buildName", "test percy_screenshot");
+        bstackOptions.put("sessionName", "Percy second_test");
+        bstackOptions.put("local", "false");
+        bstackOptions.put("os", "Windows");
+        bstackOptions.put("osVersion", "11");
+        options.setCapability("bstack:options", bstackOptions);
         driver = new RemoteWebDriver(new URL(URL), options);
     }
 

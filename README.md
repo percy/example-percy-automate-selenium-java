@@ -17,7 +17,7 @@ The tutorial assumes you're already familiar with Java and Selenium and focuses 
 
 ### Prerequisites
 
-TestNG v6.8+, Java v8+, Selenium v2.5+ (W3C/JSON Wire)
+TestNG v6.8+, Java v11+, Selenium v4+ (W3C)
 
 If you are using CLI for running tests, ensure that Maven is installed on your machine, its environment variables are set, and its bin is added to system path, $PATH
 
