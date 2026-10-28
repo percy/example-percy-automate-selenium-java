@@ -30,12 +30,14 @@ public class AdvancedTest {
         String key = System.getenv("BROWSERSTACK_ACCESS_KEY");
         ChromeOptions options = new ChromeOptions();
         options.setCapability("browserName", "Chrome");
-        options.setCapability("projectName", System.getenv().getOrDefault("BROWSERSTACK_PROJECT_NAME", "Percy Automate Selenium-Java Advanced"));
-        options.setCapability("buildName", System.getenv().getOrDefault("BROWSERSTACK_BUILD_NAME", "Advanced Selenium Java"));
-        options.setCapability("sessionName", "advanced_visual_test");
         options.setCapability("browserVersion", "latest");
-        options.setCapability("os", "Windows");
-        options.setCapability("os_version", "11");
+        Map<String, Object> bstackOptions = new HashMap<>();
+        bstackOptions.put("projectName", System.getenv().getOrDefault("BROWSERSTACK_PROJECT_NAME", "Percy Automate Selenium-Java Advanced"));
+        bstackOptions.put("buildName", System.getenv().getOrDefault("BROWSERSTACK_BUILD_NAME", "Advanced Selenium Java"));
+        bstackOptions.put("sessionName", "advanced_visual_test");
+        bstackOptions.put("os", "Windows");
+        bstackOptions.put("osVersion", "11");
+        options.setCapability("bstack:options", bstackOptions);
         driver = new RemoteWebDriver(
             new URL("https://" + user + ":" + key + "@hub-cloud.browserstack.com/wd/hub"),
             options);

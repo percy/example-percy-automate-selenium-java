@@ -17,7 +17,7 @@ The tutorial assumes you're already familiar with Java and Selenium and focuses 
 
 ### Prerequisites
 
-TestNG v6.8+, Java v8+, Selenium v2.5+ (W3C/JSON Wire)
+TestNG v6.8+, Java v11+, Selenium v4+ (W3C)
 
 If you are using CLI for running tests, ensure that Maven is installed on your machine, its environment variables are set, and its bin is added to system path, $PATH
 
@@ -116,6 +116,24 @@ $ npx percy exec --verbose  --  mvn test -P sample-percy-after-test
 ```
 
 On completion of this script, this build would get compared to the previous build and hence we can see the visual changes which percy detected.
+
+### Responsive snapshots on Edge with `webSocketUrl: true`
+
+`PercyResponsiveEdgeTest.java` takes a responsive DOM snapshot at 375px and 1280px on Edge. It starts the session with the WebDriver BiDi capability:
+
+```java
+options.setCapability("webSocketUrl", true);
+bstackOptions.put("seleniumBidi", true);
+bstackOptions.put("seleniumVersion", "4.33.0");
+```
+
+On Automate, BiDi also needs `seleniumBidi` and a Selenium server of 4.20 or later in `bstack:options`. With a BiDi session, `percy-java-selenium` can set the exact viewport for each width; a browser window can't be narrower than about 500px, so without it a 375px capture renders wider. SDK versions without BiDi support ignore the capability and snapshot as before.
+
+`percy.snapshot()` needs a Percy **web** project token (not the Automate project token used above):
+
+``` shell
+$ npx percy exec --verbose  --  mvn test -P sample-percy-responsive-edge
+```
 
 ### Finished! 😀
 
